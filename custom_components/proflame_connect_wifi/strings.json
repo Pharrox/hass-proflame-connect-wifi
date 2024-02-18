@@ -1,59 +1,59 @@
 {
-    "config": {
-      "step": {
-        "user": {
-          "description": "Enter the details of your fireplace.",
-          "data": {
-            "name": "[%key:common::config_flow::data::name%]",
-            "ip_address": "[%key:common::config_flow::data::ip%]",
-            "port": "[%key:common::config_flow::data::port%]",
-            "unique_id": "[%key:common::config_flow::data::unique_id%]"
-          }
+  "config": {
+    "step": {
+      "user": {
+        "description": "Enter the details of your fireplace.",
+        "data": {
+          "name": "[%key:common::config_flow::data::name%]",
+          "ip_address": "[%key:common::config_flow::data::ip%]",
+          "port": "[%key:common::config_flow::data::port%]",
+          "unique_id": "[%key:common::config_flow::data::unique_id%]"
         }
-      },
-      "abort": {
-        "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
-        "already_in_progress": "[%key:common::config_flow::abort::already_in_progress%]",
-        "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
-        "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]"
       }
     },
-    "entity": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "already_in_progress": "[%key:common::config_flow::abort::already_in_progress%]",
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]"
+    }
+  },
+  "entity": {
+    "climate": {
       "climate": {
-        "climate": {
-          "name": "Mode"
-        }
-      },
+        "name": "Mode"
+      }
+    },
+    "fan": {
       "fan": {
-        "fan": {
-          "name": "Fan"
-        }
-      },
+        "name": "Fan"
+      }
+    },
+    "light": {
       "light": {
-        "light": {
-          "name": "Light"
-        }
+        "name": "Light"
+      }
+    },
+    "number": {
+      "burner": {
+        "name": "Flame height"
+      }
+    },
+    "sensor": {
+      "free_heap": {
+        "name": "Free heap"
       },
-      "number": {
-        "burner": {
-          "name": "Flame height"
-        }
+      "min_free_heap": {
+        "name": "Min free heap"
       },
-      "sensor": {
-        "free_heap": {
-          "name": "Free heap"
-        },
-        "min_free_heap": {
-          "name": "Min free heap"
-        },
-        "wifi_signal_str": {
-          "name": "Wifi signal"
-        }
-      },
-      "switch": {
-        "fireplace": {
-          "name": "Fireplace"
-        }
+      "wifi_signal_str": {
+        "name": "Wifi signal"
+      }
+    },
+    "switch": {
+      "fireplace": {
+        "name": "Fireplace"
       }
     }
   }
+}
