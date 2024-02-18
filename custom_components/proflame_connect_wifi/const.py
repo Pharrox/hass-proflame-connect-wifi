@@ -59,7 +59,7 @@ class Preset(StrEnum):
     SMART = "Smart"
 
 
-DOMAIN = "proflame"
+DOMAIN = "proflame_connect_wifi"
 
 DEFAULT_PORT = 88
 
