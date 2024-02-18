@@ -1,0 +1,59 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Device is already configured",
+      "already_in_progress": "Configuration flow is already in progress",
+      "cannot_connect": "Failed to connect",
+      "no_devices_found": "No devices found on the network"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "ip_address": "IP address",
+          "name": "Name",
+          "port": "Port",
+          "unique_id": "Unique ID"
+        },
+        "description": "Enter the details of your fireplace."
+      }
+    }
+  },
+  "entity": {
+    "climate": {
+      "climate": {
+        "name": "Mode"
+      }
+    },
+    "fan": {
+      "fan": {
+        "name": "Fan"
+      }
+    },
+    "light": {
+      "light": {
+        "name": "Light"
+      }
+    },
+    "number": {
+      "burner": {
+        "name": "Flame height"
+      }
+    },
+    "sensor": {
+      "free_heap": {
+        "name": "Free heap"
+      },
+      "min_free_heap": {
+        "name": "Min free heap"
+      },
+      "wifi_signal_str": {
+        "name": "Wifi signal"
+      }
+    },
+    "switch": {
+      "fireplace": {
+        "name": "Fireplace"
+      }
+    }
+  }
+}
