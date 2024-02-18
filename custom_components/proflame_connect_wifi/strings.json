@@ -1,26 +1,13 @@
 {
     "config": {
       "step": {
-        "choice": {
-          "description": "Choose your setup type.",
-          "data": {
-            "choose": "Select"
-          }
-        },
-        "cloud": {
-          "description": "Enter your proflame account details..",
-          "data": {
-            "username": "[%key:common::config_flow::data::username%]",
-            "password": "[%key:common::config_flow::data::password%]"
-          }
-        },
-        "manual": {
+        "user": {
           "description": "Enter the details of your fireplace.",
           "data": {
             "name": "[%key:common::config_flow::data::name%]",
             "ip_address": "[%key:common::config_flow::data::ip%]",
             "port": "[%key:common::config_flow::data::port%]",
-            "mac": "MAC address"
+            "unique_id": "[%key:common::config_flow::data::unique_id%]"
           }
         }
       },
@@ -70,4 +57,3 @@
       }
     }
   }
-  

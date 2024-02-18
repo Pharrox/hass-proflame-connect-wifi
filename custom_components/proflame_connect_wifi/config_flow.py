@@ -8,9 +8,9 @@ from homeassistant import config_entries
 from homeassistant.components import dhcp
 from homeassistant.const import (
     CONF_IP_ADDRESS,
-    CONF_MAC,
     CONF_NAME,
     CONF_PORT,
+    CONF_UNIQUE_ID,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
@@ -23,11 +23,11 @@ from homeassistant.helpers.selector import (
 from .client import ProflameClient
 from .const import DEFAULT_PORT, DOMAIN
 
-MANUAL_SCHEMA = vol.Schema({
+SCHEMA = vol.Schema({
     vol.Required(CONF_NAME): str,
     vol.Required(CONF_IP_ADDRESS): str,
     vol.Required(CONF_PORT, default=DEFAULT_PORT): int,
-    vol.Required(CONF_MAC): str,
+    vol.Required(CONF_UNIQUE_ID): str,
 })
 
 _LOGGER = logging.getLogger(__name__)
@@ -78,7 +78,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle configuration via the UI."""
         if user_input is None:
             return self.async_show_form(
-                data_schema=MANUAL_SCHEMA,
+                data_schema=SCHEMA,
                 errors={},
                 step_id='user'
             )
@@ -92,34 +92,34 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
             return self.async_show_form(
                 step_id='user',
-                data_schema=MANUAL_SCHEMA,
+                data_schema=SCHEMA,
                 errors={CONF_IP_ADDRESS: 'cannot_connect'}
             )
 
-        await self._async_set_unique_id(user_input[CONF_MAC])
+        await self._async_set_unique_id(user_input[CONF_UNIQUE_ID])
 
         return self.async_create_entry(
             data=user_input,
             title=user_input[CONF_NAME],
         )
 
-    async def async_step_dhcp(
-        self, discovery_info: dhcp.DhcpServiceInfo
-    ) -> FlowResult:
-        """Handle configuration via the UI."""
-        self.discovery_info = {
-            CONF_IP_ADDRESS: discovery_info.ip,
-            CONF_MAC: discovery_info.macaddress,
-            CONF_PORT: DEFAULT_PORT,
-        }
-        await self._async_set_unique_id(discovery_info.macaddress)
+    #async def async_step_dhcp(
+    #    self, discovery_info: dhcp.DhcpServiceInfo
+    #) -> FlowResult:
+    #    """Handle configuration via the UI."""
+    #    self.discovery_info = {
+    #        CONF_IP_ADDRESS: discovery_info.ip,
+    #        CONF_MAC: discovery_info.macaddress,
+    #        CONF_PORT: DEFAULT_PORT,
+    #    }
+    #    await self._async_set_unique_id(discovery_info.macaddress)
 
-        self.context[CONF_IP_ADDRESS] = discovery_info.ip
-        in_flight = [x['context'][CONF_IP_ADDRESS] for x in self._async_in_progress()]
-        if discovery_info.ip in in_flight:
-            return self.async_abort(reason="already_in_progress")
+    #    self.context[CONF_IP_ADDRESS] = discovery_info.ip
+    #    in_flight = [x['context'][CONF_IP_ADDRESS] for x in self._async_in_progress()]
+    #    if discovery_info.ip in in_flight:
+    #        return self.async_abort(reason="already_in_progress")
 
-        return await self.async_step_discovery_confirm()
+    #    return await self.async_step_discovery_confirm()
 
     def _build_cloud_select_schema(self):
         return vol.Schema({
