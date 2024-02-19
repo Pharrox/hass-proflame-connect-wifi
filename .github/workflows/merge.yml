@@ -34,5 +34,5 @@ jobs:
         with:
           tag_name: ${{ steps.semantic_release.outputs.new_release_git_tag }}
           name: Release ${{ steps.semantic_release.outputs.new_release_git_tag }}
-          body_path: release_body.txt
+          body_path: release-body.txt
           draft: false
