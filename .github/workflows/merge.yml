@@ -14,9 +14,27 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: "Checkout the repository"
-        uses: "actions/checkout@v4.1.0"
-      - name: "Semantic Release"
-        uses: "cycjimmy/semantic-release-action@v4"
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.0
+      - name: Semantic Release
+        id: semantic_release
+        uses: cycjimmy/semantic-release-action@v4
         with:
           semantic_version: 23.0.2
+      - name: Make Release Body
+        shell: bash
+        env:
+          PREV_RELEASE: ${{ steps.outputs.semantic_release.new_release_git_tag }}
+          CUR_RELEASE: ${{ steps.outputs.semantic_release.new_release_git_tag }}
+        run: |
+          echo 'Changes in this Release' > release-body.txt
+          git log "${PREV_RELEASE}..${CUR_RELEASE}" --pretty=format:%s | sed 's/^/ - /' >> release-body.txt
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.outputs.semantic_release.new_release_git_tag }}
+          release_name: Release ${{ steps.outputs.semantic_release.new_release_git_tag }}
+          body_path: release_body.txt
+          draft: false
