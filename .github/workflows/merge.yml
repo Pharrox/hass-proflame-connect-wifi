@@ -28,7 +28,7 @@ jobs:
           CUR_RELEASE: ${{ steps.outputs.semantic_release.new_release_git_tag }}
         run: |
           echo 'Changes in this Release' > release-body.txt
-          git log "${PREV_RELEASE}..${CUR_RELEASE}" --pretty=format:%s | sed 's/^/ - /' >> release-body.txt
+          git log --pretty=format:%s "${PREV_RELEASE}..${CUR_RELEASE}" | sed 's/^/ - /' >> release-body.txt
       - name: Create Release
         uses: actions/create-release@v1
         env:
