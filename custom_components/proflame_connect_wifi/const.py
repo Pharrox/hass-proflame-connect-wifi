@@ -63,11 +63,6 @@ DOMAIN = "proflame_connect_wifi"
 
 DEFAULT_PORT = 88
 
-CLOUD_ENDPOINT = "8dhr6m21l2.execute-api.us-east-1.amazonaws.com"
-CLOUD_USER_POOL_ID = "us-east-1_xIZAxQ5ME"
-CLOUD_CLIENT_ID = "631ch85iujjbl9nlcid9eje0rp"
-CLOUD_ROUTE_DEVICES = "dev/devices"
-
 PROFLAME_CLIENT = "client"
 PROFLAME_COORDINATOR = "coordinator"
 

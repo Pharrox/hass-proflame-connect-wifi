@@ -120,16 +120,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     #    return await self.async_step_discovery_confirm()
 
-    def _build_cloud_select_schema(self):
-        return vol.Schema({
-            vol.Required(x['friendlyName']): SelectSelector(
-                SelectSelectorConfig(
-                    options=[x['friendlyName']],
-                    multiple=True
-                )
-            ) for x in self._devices['devices']
-        })
-
 #async def _async_has_devices(hass: HomeAssistant) -> bool:
 #    """Return if there are devices that can be discovered."""
 #    devices = await hass.async_add_executor_job(my_pypi_dependency.discover)
