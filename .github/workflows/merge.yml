@@ -24,8 +24,8 @@ jobs:
       - name: Make Release Body
         shell: bash
         env:
-          PREV_RELEASE: ${{ steps.outputs.semantic_release.new_release_git_tag }}
-          CUR_RELEASE: ${{ steps.outputs.semantic_release.new_release_git_tag }}
+          PREV_RELEASE: ${{ steps.semantic_release.outputs.last_release_git_tag }}
+          CUR_RELEASE: ${{ steps.semantic_release.outputs.new_release_git_tag }}
         run: |
           echo 'Changes in this Release' > release-body.txt
           git log --pretty=format:%s "${PREV_RELEASE}..${CUR_RELEASE}" | sed 's/^/ - /' >> release-body.txt
@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.outputs.semantic_release.new_release_git_tag }}
-          release_name: Release ${{ steps.outputs.semantic_release.new_release_git_tag }}
+          tag_name: ${{ steps.semantic_release.outputs.new_release_git_tag }}
+          release_name: Release ${{ steps.semantic_release.outputs.new_release_git_tag }}
           body_path: release_body.txt
           draft: false
