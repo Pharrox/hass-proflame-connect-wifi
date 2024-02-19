@@ -29,6 +29,11 @@ jobs:
         run: |
           echo 'Changes in this Release' > release-body.txt
           git log --pretty=format:%s "${PREV_RELEASE}..${CUR_RELEASE}" | sed 's/^/ - /' >> release-body.txt
+      - name: "Adjust version number"
+        shell: "bash"
+        run: |
+          yq -i -o json '.version="${{ github.event.release.tag_name }}"' \
+            "${{ github.workspace }}/custom_components/proflame_connect_wifi/manifest.json"
       - name: "ZIP the integration directory"
         shell: "bash"
         run: |
