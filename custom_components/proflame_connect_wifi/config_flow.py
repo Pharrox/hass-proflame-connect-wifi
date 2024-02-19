@@ -14,10 +14,6 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.device_registry import format_mac
-from homeassistant.helpers.selector import (
-    SelectSelector,
-    SelectSelectorConfig,
-)
 
 from .client import ProflameClient
 from .const import DEFAULT_PORT, DOMAIN
