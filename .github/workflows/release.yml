@@ -1,35 +1,49 @@
-name: "Release"
+name: Release
 
 on:
-  release:
-    types:
-      - "published"
+  push:
+    branches:
+      - master
 
 permissions: {}
 
 jobs:
   release:
-    name: "Release"
+    name: Release
     runs-on: "ubuntu-latest"
     permissions:
       contents: write
     steps:
-      - name: "Checkout the repository"
-        uses: "actions/checkout@v4.1.0"
-
+      - name: Checkout the repository
+        uses: actions/checkout@v4.1.0
+      - name: Semantic Release
+        id: semantic_release
+        uses: cycjimmy/semantic-release-action@v4
+        with:
+          semantic_version: 23.0.2
+      - name: Make Release Body
+        shell: bash
+        env:
+          PREV_RELEASE: ${{ steps.semantic_release.outputs.last_release_git_tag }}
+          CUR_RELEASE: ${{ steps.semantic_release.outputs.new_release_git_tag }}
+        run: |
+          echo 'Changes in this Release' > release-body.txt
+          git log --pretty=format:%s "${PREV_RELEASE}..${CUR_RELEASE}" | sed 's/^/ - /' >> release-body.txt
       - name: "Adjust version number"
         shell: "bash"
         run: |
-          yq -i -o json '.version="${{ github.event.release.tag_name }}"' \
+          yq -i -o json '.version="${{ steps.semantic_release.outputs.new_release_version }}"' \
             "${{ github.workspace }}/custom_components/proflame_connect_wifi/manifest.json"
-
       - name: "ZIP the integration directory"
         shell: "bash"
         run: |
           cd "${{ github.workspace }}/custom_components/proflame_connect_wifi"
           zip proflame_connect_wifi.zip -r ./
-
-      - name: "Upload the ZIP file to the release"
-        uses: softprops/action-gh-release@v0.1.15
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
         with:
+          tag_name: ${{ steps.semantic_release.outputs.new_release_git_tag }}
+          name: Release ${{ steps.semantic_release.outputs.new_release_git_tag }}
+          body_path: release-body.txt
           files: ${{ github.workspace }}/custom_components/proflame_connect_wifi/proflame_connect_wifi.zip
+          draft: false
