@@ -30,11 +30,9 @@ jobs:
           echo 'Changes in this Release' > release-body.txt
           git log --pretty=format:%s "${PREV_RELEASE}..${CUR_RELEASE}" | sed 's/^/ - /' >> release-body.txt
       - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.semantic_release.outputs.new_release_git_tag }}
-          release_name: Release ${{ steps.semantic_release.outputs.new_release_git_tag }}
+          name: Release ${{ steps.semantic_release.outputs.new_release_git_tag }}
           body_path: release_body.txt
           draft: false
