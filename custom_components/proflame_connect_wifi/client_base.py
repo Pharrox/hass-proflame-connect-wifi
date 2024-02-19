@@ -21,12 +21,12 @@ class ProflameClientBase:
 
         try:
             uri = f"ws://{host}:{port or DEFAULT_PORT}"
-            with connect(uri) as ws:
-                ws.send(ApiControl.CONN_SYN)
+            async with connect(uri) as ws:
+                await ws.send(ApiControl.CONN_SYN)
                 response = await ws.recv(timeout=10)
 
                 if response == ApiControl.CONN_ACK:
-                    _LOGGER.info("Proflame connection to '%s' established")
+                    _LOGGER.debug("Proflame connection to '%s' established")
                     return True
                 else:
                     msg = "Proflame connection test to '%s' failed with unexpected response (%s)"
