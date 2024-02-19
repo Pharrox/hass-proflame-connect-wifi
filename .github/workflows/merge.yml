@@ -29,6 +29,11 @@ jobs:
         run: |
           echo 'Changes in this Release' > release-body.txt
           git log --pretty=format:%s "${PREV_RELEASE}..${CUR_RELEASE}" | sed 's/^/ - /' >> release-body.txt
+      - name: "ZIP the integration directory"
+        shell: "bash"
+        run: |
+          cd "${{ github.workspace }}/custom_components/proflame_connect_wifi"
+          zip proflame_connect_wifi.zip -r ./
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
