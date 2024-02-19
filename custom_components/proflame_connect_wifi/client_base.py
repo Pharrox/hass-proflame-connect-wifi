@@ -23,7 +23,7 @@ class ProflameClientBase:
             uri = f"ws://{host}:{port or DEFAULT_PORT}"
             async with connect(uri) as ws:
                 await ws.send(ApiControl.CONN_SYN)
-                response = await ws.recv(timeout=10)
+                response = await ws.recv()
 
                 if response == ApiControl.CONN_ACK:
                     _LOGGER.debug("Proflame connection to '%s' established")
