@@ -22,7 +22,7 @@ from .client import ProflameClient
 from .const import DEFAULT_DEVICE, DEFAULT_NAME, DEFAULT_PORT, DOMAIN
 
 DISCOVERY_CONFIRM_SCHEMA = vol.Schema({
-    vol.Required(CONF_NAME): str,
+    vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
 })
 
 _LOGGER = logging.getLogger(__name__)
