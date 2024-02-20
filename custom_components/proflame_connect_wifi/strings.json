@@ -1,11 +1,12 @@
 {
   "config": {
+    "flow_title": "{device}",
     "step": {
       "user": {
         "description": "Enter the details of your fireplace.",
         "data": {
           "name": "[%key:common::config_flow::data::name%]",
-          "ip_address": "[%key:common::config_flow::data::ip%]",
+          "host": "[%key:common::config_flow::data::ip%]",
           "port": "[%key:common::config_flow::data::port%]",
           "unique_id": "[%key:common::config_flow::data::unique_id%]"
         }
