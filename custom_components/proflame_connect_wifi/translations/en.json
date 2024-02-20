@@ -6,6 +6,7 @@
       "cannot_connect": "Failed to connect",
       "no_devices_found": "No devices found on the network"
     },
+    "flow_title": "{device}",
     "step": {
       "discovery_confirm": {
         "description": "Give your fireplace a name.",
