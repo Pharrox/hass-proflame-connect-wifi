@@ -7,9 +7,15 @@
       "no_devices_found": "No devices found on the network"
     },
     "step": {
+      "discovery_confirm": {
+        "description": "Give your fireplace a name.",
+        "data": {
+          "name": "Name"
+        }
+      },
       "user": {
         "data": {
-          "ip_address": "IP address",
+          "host": "Host",
           "name": "Name",
           "port": "Port",
           "unique_id": "Unique ID"

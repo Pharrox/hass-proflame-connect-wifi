@@ -2,6 +2,12 @@
   "config": {
     "flow_title": "{device}",
     "step": {
+      "discovery_confirm": {
+        "description": "Give your fireplace a name.",
+        "data": {
+          "name": "[%key:common::config_flow::data::name%]"
+        }
+      },
       "user": {
         "description": "Enter the details of your fireplace.",
         "data": {
