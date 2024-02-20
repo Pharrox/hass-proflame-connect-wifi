@@ -52,6 +52,14 @@ def resolve_host(ip) -> str:
         # Host from rDNS isn't forward resolvable
         return ip
 
+def resolve_ip(host) -> str:
+    """Do DNS resolution for a host to store the IP and prevent duplicate entries."""
+    return [x[4][0] for x in socket.getaddrinfo(
+        host=host,
+        port=None,
+        proto=6,
+    )][0]
+
 async def test_connectivity(host: str, port: int = DEFAULT_PORT) -> bool:
     """Validate fireplace is connectable."""
     return await ProflameClient.test_connection(host, port)
@@ -120,7 +128,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         await self._async_set_unique_id(user_input[CONF_UNIQUE_ID])
         return self.async_create_entry(
-            data=user_input,
+            data={
+                CONF_NAME: user_input[CONF_NAME],
+                CONF_HOST: user_input[CONF_HOST],
+                CONF_IP_ADDRESS: resolve_ip(user_input[CONF_HOST]),
+                CONF_PORT: user_input[CONF_PORT],
+                CONF_UNIQUE_ID: self.unique_id
+            },
             title=user_input[CONF_NAME],
         )
 
@@ -144,6 +158,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             return self.async_create_entry(
                 data={
                     CONF_NAME: user_input[CONF_NAME],
+                    CONF_HOST: self.context[CONF_HOST],
                     CONF_IP_ADDRESS: self.context[CONF_IP_ADDRESS],
                     CONF_PORT: DEFAULT_PORT,
                     CONF_UNIQUE_ID: self.unique_id
