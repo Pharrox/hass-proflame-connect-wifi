@@ -6,7 +6,7 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant import config_entries
-from homeassistant.components import dhcp, onboarding
+from homeassistant.components import dhcp
 from homeassistant.const import (
     CONF_HOST,
     CONF_IP_ADDRESS,
@@ -29,6 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 
 
 def build_user_schema(user_input: dict[str, Any] | None = None):
+    """Generate user schema while respecting previously input data."""
     state = user_input or {}
     return vol.Schema({
         vol.Required(CONF_NAME, default=state.get(CONF_NAME, DEFAULT_NAME)): str,
@@ -36,6 +37,20 @@ def build_user_schema(user_input: dict[str, Any] | None = None):
         vol.Required(CONF_PORT, default=state.get(CONF_PORT, DEFAULT_PORT)): int,
         vol.Required(CONF_UNIQUE_ID, default=state.get(CONF_UNIQUE_ID, None)): str,
     })
+
+def resolve_host(ip) -> str:
+    """Try to get a DNS name from an IP address with verification of forward resolution."""
+    try:
+        host = socket.getnameinfo((ip, 0), 0)[0]
+        resolved = [x[4][0] for x in socket.getaddrinfo(
+            host=host,
+            port=None,
+            proto=6,
+        )]
+        return host if ip in resolved else ip
+    except socket.gaierror:
+        # Host from rDNS isn't forward resolvable
+        return ip
 
 async def test_connectivity(host: str, port: int = DEFAULT_PORT) -> bool:
     """Validate fireplace is connectable."""
@@ -115,7 +130,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Handle configuration via the UI."""
         await self._async_set_unique_id(format_mac(discovery_info.macaddress))
 
-        self.context[CONF_HOST] = self._resolve_host(discovery_info.ip)
+        self.context[CONF_HOST] = resolve_host(discovery_info.ip)
         self.context[CONF_IP_ADDRESS] = discovery_info.ip
         in_flight = [x['context'][CONF_IP_ADDRESS] for x in self._async_in_progress()]
         if discovery_info.ip in in_flight:
@@ -143,17 +158,3 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors={},
             step_id='discovery_confirm'
         )
-
-    def _resolve_host(self, ip) -> str:
-        """Try to get a DNS name from an IP address with verification of forward resolution"""
-        try:
-            host = socket.getnameinfo((ip, 0), 0)[0]
-            resolved = [x[4][0] for x in socket.getaddrinfo(
-                host=host,
-                port=None,
-                proto=6,
-            )]
-            return host if ip in resolved else ip
-        except socket.gaierror:
-            # Host from rDNS isn't forward resolvable
-            return ip
