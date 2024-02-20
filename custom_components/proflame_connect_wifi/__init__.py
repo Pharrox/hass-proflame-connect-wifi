@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from homeassistant.config_entries import ConfigEntry, ConfigType
-from homeassistant.const import CONF_IP_ADDRESS, CONF_PORT, Platform
+from homeassistant.const import CONF_HOST, CONF_PORT, Platform
 from homeassistant.core import HomeAssistant
 
 from .client import ProflameClient
@@ -29,7 +29,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     client = ProflameClient(
         device_id=entry.unique_id,
-        host=entry.data[CONF_IP_ADDRESS],
+        host=entry.data[CONF_HOST],
         port=entry.data[CONF_PORT],
     )
     await client.open()
