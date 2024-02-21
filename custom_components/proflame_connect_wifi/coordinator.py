@@ -36,7 +36,6 @@ class ProflameDataCoordinator(DataUpdateCoordinator):
 
     def handle_state_change(self, key: str, value: int) -> None:
         """Pass new data to the underlying coordinator."""
-        self.logger.warning('Received %s=%s', key, value)
         self.async_set_updated_data(
             data={
                 **self.data,

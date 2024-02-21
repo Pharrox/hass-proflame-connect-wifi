@@ -147,7 +147,7 @@ class ProflameClientBase:
         while True:
             try:
                 async for message in self._ws:
-                    self._warning('RECV: %s', message)
+                    self._debug('RECV: %s', message)
                     self._handle_message(message)
             except asyncio.CancelledError:
                 break
@@ -178,7 +178,7 @@ class ProflameClientBase:
 
     async def open(self) -> None:
         """Connect to the Proflame websocket."""
-        self._warning('Connection opening')
+        self._debug('Connection opening')
         self._connection = asyncio.create_task(self._connect())
 
     def register_callback(self, callback) -> None:
