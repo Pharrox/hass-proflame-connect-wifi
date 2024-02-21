@@ -4,7 +4,7 @@ import json
 from json.decoder import JSONDecodeError
 import logging
 
-from websockets import ConnectionClosed
+from websockets import ConnectionClosed, ConnectionClosedError
 from websockets.client import connect
 
 from .const import DEFAULT_PORT, ApiControl
@@ -78,7 +78,7 @@ class ProflameClientBase:
                         ]
                     await self._send(ApiControl.CONN_SYN)
                     await asyncio.gather(*tasks, return_exceptions=True)
-                except ConnectionClosed:
+                except (ConnectionClosed, ConnectionClosedError):
                     msg = 'Attempting to reopen after connection closed unexpectedly'
                     self._warning(msg)
         except asyncio.CancelledError:
