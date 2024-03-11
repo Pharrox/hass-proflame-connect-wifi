@@ -40,7 +40,7 @@ jobs:
           cd "${{ github.workspace }}/custom_components/proflame_connect_wifi"
           zip proflame_connect_wifi.zip -r ./
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.semantic_release.outputs.new_release_git_tag }}
           name: Release ${{ steps.semantic_release.outputs.new_release_git_tag }}
