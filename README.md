@@ -32,7 +32,13 @@ Platform | Description
 
 ## Configuration is done in the UI
 
-<!---->
+You will need the IP address of your Proflame Connect device.  In addition, you will need it's Unique ID (e.g. the `FCC ID` on the remote).
+
+## Lovelace Card
+
+Once configured, you can add a card to Lovelace that looks like this:
+
+<img width="356" alt="image" src="https://github.com/mirmirou/hass-proflame-connect-wifi/assets/109924196/f236ce65-a333-4825-9627-0ac38de6ceca">
 
 ## Contributions are welcome!
 
