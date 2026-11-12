@@ -1,5 +1,6 @@
 """Provides high level abstractions for interacting with Proflame fireplaces."""
-from homeassistant.components.climate import HVACAction, HVACMode, UnitOfTemperature
+from homeassistant.components.climate import HVACAction, HVACMode
+from homeassistant.const import UnitOfTemperature
 
 from .client_base import ProflameClientBase
 from .const import (
