@@ -41,6 +41,8 @@ class OperatingMode(IntEnum):
     MANUAL = 1
     THERMOSTAT = 2
     SMART = 3
+    # Mode 5 appears to be a WiFi/App control mode on newer firmware
+    WIFI = 5
 
 
 class PilotMode(IntEnum):
@@ -65,12 +67,19 @@ DEFAULT_DEVICE = 'Proflame Fireplace'
 DEFAULT_NAME = 'Fireplace'
 DEFAULT_PORT = 88
 
+# Seconds between pings, and seconds of silence before the connection is dropped
+KEEPALIVE_INTERVAL = 5
+KEEPALIVE_TIMEOUT = 30
+# Seconds to wait before reconnecting after a dropped connection
+RECONNECT_DELAY = 5
+
 PROFLAME_CLIENT = "client"
 PROFLAME_COORDINATOR = "coordinator"
 
 ADJUSTABLE_MODES = [
     OperatingMode.MANUAL,
     OperatingMode.THERMOSTAT,
+    OperatingMode.WIFI,
 ]
 
 MAX_FAN_SPEED = 6

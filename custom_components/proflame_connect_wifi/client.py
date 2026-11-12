@@ -1,5 +1,6 @@
 """Provides high level abstractions for interacting with Proflame fireplaces."""
-from homeassistant.components.climate import HVACAction, HVACMode, UnitOfTemperature
+from homeassistant.components.climate import HVACAction, HVACMode
+from homeassistant.const import UnitOfTemperature
 
 from .client_base import ProflameClientBase
 from .const import (
@@ -157,7 +158,7 @@ class ProflameClient(ProflameClientBase):
 
     def set_light_brightness(self, brightness: int) -> None:
         """Set the brightness of the primary light."""
-        constrained = constrain(brightness, MAX_LIGHT_BRIGHTNESS, MIN_LIGHT_BRIGHTNESS)
+        constrained = constrain(brightness, MIN_LIGHT_BRIGHTNESS, MAX_LIGHT_BRIGHTNESS)
         self.set_state(ApiAttrs.LIGHT_BRIGHTNESS, constrained)
 
     def set_operating_mode(self, mode: OperatingMode) -> None:

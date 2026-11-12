@@ -30,7 +30,11 @@ async def async_setup_entry(
 class ProflameFan(ProflameEntity, FanEntity):
     """Creates a device to control fireplace fan."""
 
-    _attr_supported_features = FanEntityFeature.SET_SPEED
+    _attr_supported_features = (
+        FanEntityFeature.SET_SPEED
+        | FanEntityFeature.TURN_ON
+        | FanEntityFeature.TURN_OFF
+    )
     _attr_speed_count = MAX_FAN_SPEED
 
     def __init__(self, coordinator: ProflameDataCoordinator) -> None:

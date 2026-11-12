@@ -33,6 +33,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         port=entry.data[CONF_PORT],
     )
     await client.open()
+    # Wait for initial state to detect device protocol (indexed vs simple format)
+    await client.wait_for_state()
 
     coordinator = ProflameDataCoordinator(hass, client, entry.title)
 

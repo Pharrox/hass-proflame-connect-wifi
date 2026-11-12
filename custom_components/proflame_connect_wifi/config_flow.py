@@ -6,7 +6,6 @@ from typing import Any
 import voluptuous as vol
 
 from homeassistant import config_entries
-from homeassistant.components import dhcp
 from homeassistant.const import (
     CONF_HOST,
     CONF_IP_ADDRESS,
@@ -17,6 +16,7 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.device_registry import format_mac
+from homeassistant.helpers.service_info.dhcp import DhcpServiceInfo
 
 from .client import ProflameClient
 from .const import DEFAULT_DEVICE, DEFAULT_NAME, DEFAULT_PORT, DOMAIN
@@ -139,7 +139,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         )
 
     async def async_step_dhcp(
-        self, discovery_info: dhcp.DhcpServiceInfo
+        self, discovery_info: DhcpServiceInfo
     ) -> FlowResult:
         """Handle configuration via the UI."""
         await self._async_set_unique_id(format_mac(discovery_info.macaddress))
